@@ -38,6 +38,8 @@ pres_results_cd_clean <- pres_results_cd %>%
   mutate(dem = round(dem, 4),
          rep = round(rep, 4),
          other = round(other,4))
+
+pres_results_cd_clean$district <- as.character(pres_results_cd_clean$district)
   
 ```
 
