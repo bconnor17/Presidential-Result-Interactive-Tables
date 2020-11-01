@@ -1,7 +1,6 @@
 ---
 title: "Presidential Result Interactive Tables"
 author: "Brian Connor"
-date: "11/1/2020"
 output: html_document
 ---
 
