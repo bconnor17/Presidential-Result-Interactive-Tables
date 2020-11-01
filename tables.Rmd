@@ -1,6 +1,5 @@
 ---
 title: "Presidential Result Interactive Tables"
-author: "Brian Connor"
 output: html_document
 ---
 
