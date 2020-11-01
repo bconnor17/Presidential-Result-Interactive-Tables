@@ -1,0 +1,74 @@
+---
+title: "Presidential Result Interactive Tables"
+author: "Brian Connor"
+date: "11/1/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Libraries
+library(DT)
+library(tidyverse)
+library(politicaldata)
+
+#Loading data
+pres_results_cd <- politicaldata::pres_results_by_cd
+pres_results_county <- read.csv("County Level Presidential Election Results 2000-2016.csv",
+                                stringsAsFactors = FALSE)
+
+
+#Cleaning county level data.
+pres_results_county_clean <- pres_results_county %>%
+  mutate(party = replace_na(party, "other")) %>%
+  spread(key = party, value = candidatevotes)%>%
+  group_by(year, state_po, county) %>%
+  summarize(democrat = sum(democrat, na.rm = T),
+            republican = sum(republican, na.rm = T),
+            green = sum(green, na.rm = T),
+            other = sum(other, na.rm = T)) %>%
+  mutate(total = democrat + republican +green + other,
+         dem_share = democrat/total,
+         rep_share = republican/total,
+         abs_diff = abs(dem_share-rep_share)) %>%
+  mutate(dem_share = round(dem_share, 4),
+         rep_share = round(rep_share, 4),
+         abs_diff = round(abs_diff, 4))
+
+# Cleaning CD level data
+pres_results_cd_clean <- pres_results_cd %>%
+  select(year, state_abb, district,total_votes, dem, rep, other) %>%
+  mutate(dem = round(dem, 4),
+         rep = round(rep, 4),
+         other = round(other,4))
+  
+```
+
+## County Level Result Table
+
+```{r echo = F, results = 'asis', warning = FALSE}
+datatable(pres_results_county_clean,
+          colnames = c("Year", "State", "County", "Democratic Votes",
+                       "Republican Votes", "Green Votes", "Other Votes",
+                       "Total Votes", "Democratic %", "Republican %", "Difference"),
+          filter = 'top',
+          options = list(pageLength = 15, autoWidth = TRUE),
+          rownames = FALSE)
+```
+
+## District Level Result Table
+
+```{r echo = F, results = 'asis', warning=FALSE}
+datatable(pres_results_cd_clean,
+          colnames = c("Year", "State", "District", "Total Votes", "Democratic %", 
+                       "Republican %", "Other %"),
+          filter = 'top',
+          options = list(pageLength = 15, autoWidth = TRUE),
+          rownames = FALSE)
+```
+
+
+### Sources
+
+Congressional level presidential data is sourced from G. Elliott Morris' [politicaldata](https://cran.r-project.org/web/packages/politicaldata/index.html) R package.
+
+County level presidential data is sourced from the [MIT Election Data + Science Lab](https://electionlab.mit.edu/data).
