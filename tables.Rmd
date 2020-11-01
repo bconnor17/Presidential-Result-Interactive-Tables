@@ -27,17 +27,21 @@ pres_results_county_clean <- pres_results_county %>%
   mutate(total = democrat + republican +green + other,
          dem_share = democrat/total,
          rep_share = republican/total,
-         abs_diff = abs(dem_share-rep_share)) %>%
+         diff = dem_share-rep_share) %>%
   mutate(dem_share = round(dem_share, 4),
          rep_share = round(rep_share, 4),
-         abs_diff = round(abs_diff, 4))
+         diff = round(diff, 4),
+         other_total = green + other,
+         other_share = round(other_total/total, 4)) %>%
+  select(year,state_po, county, total, dem_share, rep_share, other_share, diff)
 
 # Cleaning CD level data
 pres_results_cd_clean <- pres_results_cd %>%
   select(year, state_abb, district,total_votes, dem, rep, other) %>%
   mutate(dem = round(dem, 4),
          rep = round(rep, 4),
-         other = round(other,4))
+         other = round(other,4),
+         diff = dem - rep)
 
 pres_results_cd_clean$district <- as.character(pres_results_cd_clean$district)
   
@@ -47,9 +51,7 @@ pres_results_cd_clean$district <- as.character(pres_results_cd_clean$district)
 
 ```{r echo = F, results = 'asis', warning = FALSE}
 datatable(pres_results_county_clean,
-          colnames = c("Year", "State", "County", "Democratic Votes",
-                       "Republican Votes", "Green Votes", "Other Votes",
-                       "Total Votes", "Democratic %", "Republican %", "Difference"),
+          colnames = c("Year", "State", "County","Total Votes", "Democratic %", "Republican %",          "Other %","Dem% - Rep%"),
           filter = 'top',
           options = list(pageLength = 15, autoWidth = TRUE),
           rownames = FALSE)
@@ -60,7 +62,7 @@ datatable(pres_results_county_clean,
 ```{r echo = F, results = 'asis', warning=FALSE}
 datatable(pres_results_cd_clean,
           colnames = c("Year", "State", "District", "Total Votes", "Democratic %", 
-                       "Republican %", "Other %"),
+                       "Republican %", "Other %", "Dem% - Rep%"),
           filter = 'top',
           options = list(pageLength = 15, autoWidth = TRUE),
           rownames = FALSE)
