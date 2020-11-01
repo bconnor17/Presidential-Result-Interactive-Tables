@@ -44,6 +44,8 @@ pres_results_cd_clean <- pres_results_cd %>%
          diff = dem - rep)
 
 pres_results_cd_clean$district <- as.character(pres_results_cd_clean$district)
+pres_results_cd_clean$year <- as.character(pres_results_cd_clean$year)
+pres_results_county_clean$year <- as.character(pres_results_county_clean$year)
   
 ```
 
