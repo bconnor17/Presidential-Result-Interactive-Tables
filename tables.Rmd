@@ -57,7 +57,12 @@ datatable(pres_results_county_clean,
           colnames = c("Year", "State", "County","Total Votes", "Democratic %", "Republican %",          "Other %","Dem% - Rep%"),
           filter = 'top',
           options = list(pageLength = 15, autoWidth = TRUE),
-          rownames = FALSE)
+          rownames = FALSE)%>%
+  formatStyle(
+    "diff",
+    backgroundColor = styleInterval(c(0), c("#FFCCCB","#ADD8E6")),
+    fontWeight = "bold"
+  )
 ```
 
 ## District Level Result Table
@@ -68,7 +73,12 @@ datatable(pres_results_cd_clean,
                        "Republican %", "Other %", "Dem% - Rep%"),
           filter = 'top',
           options = list(pageLength = 15, autoWidth = TRUE),
-          rownames = FALSE)
+          rownames = FALSE) %>%
+  formatStyle(
+    "diff",
+    backgroundColor = styleInterval(c(0), c("#FFCCCB","#ADD8E6")),
+    fontWeight = "bold"
+  )
 ```
 
 
