@@ -77,3 +77,5 @@ datatable(pres_results_cd_clean,
 Congressional level presidential data is sourced from G. Elliott Morris' [politicaldata](https://cran.r-project.org/web/packages/politicaldata/index.html) R package.
 
 County level presidential data is sourced from the [MIT Election Data + Science Lab](https://electionlab.mit.edu/data).
+
+Built by Brian Connor.
